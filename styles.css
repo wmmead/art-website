@@ -396,6 +396,7 @@ input, textarea {
 
     header nav {
         max-width: 100%;
+        height: 40px;
     }
 
     header nav ul {

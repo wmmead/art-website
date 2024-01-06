@@ -100,6 +100,15 @@ header nav ul #pause {
     width: 75px;
 }
 
+#cat {
+    width: 30px;
+    transform: scale(2.5);
+}
+
+#paws:hover, #cat:hover {
+    cursor: pointer;
+}
+
 header nav ul li a {
     display: block;
     text-decoration: none;
@@ -357,6 +366,7 @@ input, textarea {
     }
     header nav ul #pause {
         padding: 0 20px;
+        width: 75px;
     }
    
     #work {

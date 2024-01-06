@@ -25,6 +25,19 @@ window.addEventListener('load', () => {
         }, 500);
     });
 
+    document.addEventListener('click', function(event){
+        if( event.target.id == 'paws'){
+            event.target.src = 'images/cat-running.svg';
+            event.target.id = 'cat';
+            document.querySelector('.animate').style.animationPlayState = 'paused';
+        }
+        else if( event.target.id == 'cat'){
+            event.target.src = 'images/paws.svg';
+            event.target.id = 'paws';
+            document.querySelector('.animate').style.animationPlayState = 'running';
+        }
+    });
+
     //console.log(navLinks);
 
     navLinks.forEach(eachLink => {

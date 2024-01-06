@@ -6,6 +6,7 @@ window.addEventListener('load', () => {
     const closelinks = document.querySelectorAll('.close');
     const slider = document.querySelector('#slider');
     let doneResizing;
+    let currentLeft = 0;
 
     // This runs the slider...
     const sliderContent = document.querySelector('.a');
@@ -36,7 +37,6 @@ window.addEventListener('load', () => {
     animationend event listener is doing.*/
 
     document.addEventListener('click', function(event){
-        let currentLeft;
         // pauses the slider
         if( event.target.id == 'paws'){
             event.target.src = 'images/cat-running.svg';
@@ -59,6 +59,9 @@ window.addEventListener('load', () => {
             
             slider.addEventListener('animationend', function(){
                 currentLeft = slider.getBoundingClientRect().left;
+                if((currentLeft*-1) > sliderWidth){
+                    currentLeft = currentLeft+sliderWidth;
+                }
                 root.style.setProperty('--currentleft', currentLeft+'px');
                 root.style.setProperty('--newend', currentLeft-sliderWidth+'px');
                 slider.className = 'continue';

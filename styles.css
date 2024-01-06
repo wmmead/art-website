@@ -2,6 +2,9 @@
 
 :root {
     --sliderwidth: 0;
+    --currentleft: 0;
+    --newleft: 0;
+    --newend: 0;
 }
 
 h1, h2, h3, nav ul, p {
@@ -169,11 +172,47 @@ footer p {
 
 @keyframes moveSlider {
     from { left: 0; }
-    to { left: var(--sliderwidth) }
+    to { left: var(--sliderwidth); }
+}
+
+@keyframes pauseSlider {
+    from { left: var(--currentleft); }
+    to { left: var(--newleft); }
+}
+
+@keyframes restartSlider {
+    from { left: var(--currentleft); }
+    to { left: var(--newleft); }
+}
+
+@keyframes continueSlider {
+    from { left: var(--currentleft); }
+    to { left: var(--newend); }
 }
 .animate {
     animation-name: moveSlider;
-    animation-duration: 100s;
+    animation-duration: 50s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.pause {
+    animation-name: pauseSlider;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.resume {
+    animation-name: restartSlider;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.continue {
+    animation-name: continueSlider;
+    animation-duration: 50s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }

@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
     const navLinks = document.querySelectorAll(".navpop");
     const articles = document.querySelectorAll("#page article");
     const closelinks = document.querySelectorAll('.close');
+    const slider = document.querySelector('#slider');
     let doneResizing;
 
     // This runs the slider...
@@ -11,11 +12,11 @@ window.addEventListener('load', () => {
     const sliderWidth = sliderContent.offsetWidth;
     const cloned = sliderContent.cloneNode(true);
     cloned.className = "b";
-    document.querySelector('#slider').appendChild(cloned);
+    slider.appendChild(cloned);
     let root = document.querySelector(':root');
     const endLeftPos = `-${sliderWidth}px`;    
     root.style.setProperty('--sliderwidth', endLeftPos);
-    document.querySelector('#slider').classList.add("animate");
+    slider.className = "animate";
 
 
     window.addEventListener('resize', function () {
@@ -25,16 +26,44 @@ window.addEventListener('load', () => {
         }, 500);
     });
 
+    /* The event listener below handles pausing and restarting the slider.
+    Originally, I used the animationPlayState property to pause the animation.
+    This is a very simple solution, but it feels very abrupt. Instead, I swap
+    classes, which include pause, resume and continue.
+    
+    Resuming the animation is tricky, because I want to start up with one animation
+    and when that finishes, continue the normal slider function. This is what the
+    animationend event listener is doing.*/
+
     document.addEventListener('click', function(event){
+        let currentLeft;
+        // pauses the slider
         if( event.target.id == 'paws'){
             event.target.src = 'images/cat-running.svg';
             event.target.id = 'cat';
-            document.querySelector('.animate').style.animationPlayState = 'paused';
+            //document.querySelector('.animate').style.animationPlayState = 'paused';
+            currentLeft = slider.getBoundingClientRect().left;
+            root.style.setProperty('--currentleft', currentLeft+'px');
+            root.style.setProperty('--newleft', currentLeft-50+'px');
+            slider.className = 'pause';
         }
+        // resumes and continues the slider from where it's current position
         else if( event.target.id == 'cat'){
             event.target.src = 'images/paws.svg';
             event.target.id = 'paws';
-            document.querySelector('.animate').style.animationPlayState = 'running';
+            //document.querySelector('.animate').style.animationPlayState = 'running';
+            currentLeft = slider.getBoundingClientRect().left;
+            root.style.setProperty('--currentleft', currentLeft+'px');
+            root.style.setProperty('--newleft', currentLeft-50+'px');
+            slider.className = 'resume';
+            
+            slider.addEventListener('animationend', function(){
+                currentLeft = slider.getBoundingClientRect().left;
+                root.style.setProperty('--currentleft', currentLeft+'px');
+                root.style.setProperty('--newend', currentLeft-sliderWidth+'px');
+                slider.className = 'continue';
+                // once : true is used to remove the event listener after it has run one time
+            }, {once : true});
         }
     });
 

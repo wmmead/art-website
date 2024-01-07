@@ -59,6 +59,9 @@ window.addEventListener('load', () => {
             
             slider.addEventListener('animationend', function(){
                 currentLeft = slider.getBoundingClientRect().left;
+                /* This if statement keeps the slider from sinching off
+                the left side of the page, if the pause/start button is pressed
+                multiple times. */
                 if((currentLeft*-1) > sliderWidth){
                     currentLeft = currentLeft+sliderWidth;
                 }
